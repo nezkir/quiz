@@ -968,7 +968,6 @@ const questions = [
         correctAnswer: "is"
     }
 ];
-
 // Shuffle the questions array using Fisher-Yates algorithm
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -1058,22 +1057,27 @@ function checkAnswer(userAnswer) {
 
     // If it's a fill-in-the-blank question, get the user's input
     if (currentQuestion.type === "fill-in-the-blank") {
-        userAnswer = document.getElementById("userAnswer").value.trim().toLowerCase();
+        userAnswer = document.getElementById("userAnswer").value.trim().toLowerCase(); // Convert to lowercase for case-insensitive comparison
         if (!userAnswer) {
             resultElement.textContent = "Please enter an answer!";
             resultElement.className = "incorrect";
             return;
         }
     } else {
-        userAnswer = userAnswer.toLowerCase();
+        userAnswer = userAnswer.toLowerCase(); // Convert multiple-choice answer to lowercase for case-insensitive comparison
     }
 
-    // AI logic to match the answer
+    // Compare answers in a case-insensitive manner
     if (userAnswer === currentQuestion.correctAnswer.toLowerCase()) {
         resultElement.textContent = "Correct!";
         resultElement.className = "correct";
         score++;
         scoreElement.textContent = score;
+
+        // Add a 1-second delay before moving to the next question
+        setTimeout(() => {
+            nextQuestion();
+        }, 1000); // 1000 milliseconds = 1 second
     } else {
         resultElement.textContent = `Incorrect! The correct answer is: ${currentQuestion.correctAnswer}`;
         resultElement.className = "incorrect";
